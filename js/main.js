@@ -1,6 +1,6 @@
 /**
  * Marketing Portfolio — Main JavaScript
- * Scroll animations, mobile navigation, smooth scroll
+ * Scroll animations, mobile navigation, smooth scroll, View toggle
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -114,5 +114,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     `;
     document.head.appendChild(activeStyle);
+
+    // --- View toggle for AI-Driven cards ---
+    const viewToggles = document.querySelectorAll('.view-toggle');
+
+    viewToggles.forEach(button => {
+        button.addEventListener('click', () => {
+            const targetId = button.getAttribute('data-target');
+            const expandEl = document.getElementById(targetId);
+
+            if (expandEl) {
+                const isVisible = expandEl.classList.contains('visible');
+                expandEl.classList.toggle('visible');
+                button.classList.toggle('active');
+
+                if (!isVisible) {
+                    button.textContent = 'View ↑';
+                } else {
+                    button.textContent = 'View ↓';
+                }
+            }
+        });
+    });
 
 });
