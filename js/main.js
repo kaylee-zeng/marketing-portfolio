@@ -1,6 +1,6 @@
 /**
  * Marketing Portfolio — Main JavaScript
- * Scroll animations, mobile navigation, smooth scroll, View toggle
+ * Scroll animations, mobile navigation, smooth scroll, AI View toggle
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     window.addEventListener('scroll', updateNav, { passive: true });
-    updateNav(); // initial check
+    updateNav();
 
     // --- Mobile Menu Toggle ---
     navToggle.addEventListener('click', () => {
@@ -106,35 +106,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', updateActiveLink, { passive: true });
 
-    // --- Add active style for nav links ---
+    // --- Active style for nav links ---
     const activeStyle = document.createElement('style');
-    activeStyle.textContent = `
-        .nav-link.active {
-            color: var(--color-accent);
-        }
-    `;
+    activeStyle.textContent = `.nav-link.active { color: var(--color-accent); }`;
     document.head.appendChild(activeStyle);
 
-    // --- View toggle for AI-Driven cards ---
+    // --- AI View toggle: click to open, click anywhere to close ---
     const viewToggles = document.querySelectorAll('.view-toggle');
+    let currentOpen = null; // track currently open expand element
 
     viewToggles.forEach(button => {
-        button.addEventListener('click', () => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); // prevent immediate close on document click
             const targetId = button.getAttribute('data-target');
             const expandEl = document.getElementById(targetId);
 
-            if (expandEl) {
-                const isVisible = expandEl.classList.contains('visible');
-                expandEl.classList.toggle('visible');
-                button.classList.toggle('active');
+            if (!expandEl) return;
 
-                if (!isVisible) {
-                    button.textContent = 'View ↑';
-                } else {
-                    button.textContent = 'View ↓';
-                }
+            // Close previously open element
+            if (currentOpen && currentOpen !== expandEl) {
+                currentOpen.classList.remove('visible');
+                const prevBtn = document.querySelector(`[data-target="${currentOpen.id}"]`);
+                if (prevBtn) prevBtn.textContent = 'View';
+            }
+
+            // Toggle current
+            const isVisible = expandEl.classList.contains('visible');
+            if (isVisible) {
+                expandEl.classList.remove('visible');
+                button.textContent = 'View';
+                currentOpen = null;
+            } else {
+                expandEl.classList.add('visible');
+                button.textContent = 'View';
+                currentOpen = expandEl;
             }
         });
+    });
+
+    // Click anywhere outside to close
+    document.addEventListener('click', () => {
+        if (currentOpen) {
+            currentOpen.classList.remove('visible');
+            const btn = document.querySelector(`[data-target="${currentOpen.id}"]`);
+            if (btn) btn.textContent = 'View';
+            currentOpen = null;
+        }
     });
 
 });
