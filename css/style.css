@@ -986,6 +986,38 @@ body {
     max-width: 100%;
     border-radius: var(--card-radius-sm);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    cursor: zoom-in;
+    transition: opacity var(--transition-fast);
+}
+
+.ai-img:hover {
+    opacity: 0.85;
+}
+
+/* Lightbox */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+}
+
+.lightbox.visible {
+    display: flex;
+}
+
+.lightbox img {
+    max-width: 92vw;
+    max-height: 92vh;
+    border-radius: 8px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 /* --- Contact --- */

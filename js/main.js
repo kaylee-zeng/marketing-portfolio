@@ -154,4 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // --- Lightbox zoom for AI images ---
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+
+    document.querySelectorAll('.ai-img').forEach(img => {
+        img.addEventListener('click', (e) => {
+            e.stopPropagation();
+            lightboxImg.src = img.src;
+            lightboxImg.alt = img.alt;
+            lightbox.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    lightbox.addEventListener('click', () => {
+        lightbox.classList.remove('visible');
+        document.body.style.overflow = '';
+    });
+
 });
